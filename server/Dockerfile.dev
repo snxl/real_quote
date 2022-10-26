@@ -1,0 +1,7 @@
+FROM golang:1.19-alpine3.16
+
+WORKDIR /usr/app
+
+RUN apk add --update gcc g++ bash
+
+ENTRYPOINT [ "tail", "-f", "/dev/null" ]
