@@ -1,28 +1,21 @@
 package config
 
 import (
-	"sync"
+	"fmt"
+	"path/filepath"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var lock = &sync.Mutex{}
-var sqlxConn *sqlx.DB
-
 func Conn() *sqlx.DB {
-	if sqlxConn == nil {
-		lock.Lock()
-		defer lock.Unlock()
-		if sqlxConn == nil {
-			db, err := sqlx.Open("sqlite3", ":memory:")
-			if err != nil {
-				panic(err)
-			}
+	pwd, _ := filepath.Abs("")
+	sqlite3Path := fmt.Sprintf("%s/src/shared/config/sqlite3.db", pwd)
 
-			sqlxConn = db
-		}
+	db, err := sqlx.Open("sqlite3", sqlite3Path)
+	if err != nil {
+		panic(err)
 	}
 
-	return sqlxConn
+	return db
 }

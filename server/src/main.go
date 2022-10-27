@@ -10,8 +10,7 @@ import (
 
 func main() {
 
-	err := createSchema(config.Conn())
-	if err != nil {
+	if err := createSchema(config.Conn()); err != nil {
 		panic(err)
 	}
 
